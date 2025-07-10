@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { getObjectURL, putObject } from './utils/helper';
+import { Signin } from './auth/auth';
 dotenv.config();
 
 const app = express();
@@ -16,6 +17,7 @@ app.get('/', async (req, res) => {
 })
 
 
+app.post('/signin', Signin);
 
 //@ts-ignore
 app.put('/upload-url', async (req, res) => {
