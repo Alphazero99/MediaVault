@@ -1,13 +1,15 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
 import { getObjectURL, putObject } from './utils/helper';
-import { Signin } from './auth/auth';
+import { Signin, Login , Logout, isAuthenticated} from './auth/auth';
 dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 const PORT = process.env.PORT || 3000;
 
 //@ts-ignore
@@ -18,6 +20,9 @@ app.get('/', async (req, res) => {
 
 
 app.post('/signin', Signin);
+app.post('/login', Login);
+app.get('/logout', isAuthenticated, Logout);
+
 
 //@ts-ignore
 app.put('/upload-url', async (req, res) => {
