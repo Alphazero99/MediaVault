@@ -83,9 +83,12 @@ export const Login = async (req, res) => {
      
         res.cookie('token', token, {
             httpOnly: true,
-            sameSite: 'Strict',
+            sameSite: 'Lax',
+            secure: false,
           
         });
+        console.log("logged in")
+        console.log(token)
         return res.status(200).json({
             "message" : "Login successful", 
             "token" : token
@@ -101,9 +104,10 @@ export const Login = async (req, res) => {
 export const Logout = (req, res) => {
     res.clearCookie('token', {
       httpOnly: true,
-      sameSite: 'Strict',
+      sameSite: 'Lax',
       secure: false,
     });
+    console.log("logged out")
     return res.status(200).json({
       message: "User logged out successfully.",
       success: true
@@ -116,7 +120,7 @@ export const Logout = (req, res) => {
 export const isAuthenticated = async (req,res,next) => {
     try {
         const token = req.cookies.token;
-       
+        console.log(token)
         if(!token){
             console.log("no token")
             return res.status(401).json({

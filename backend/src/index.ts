@@ -7,7 +7,10 @@ import { Signin, Login , Logout, isAuthenticated} from './auth/auth';
 dotenv.config();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173', // your frontend's URL
+    credentials: true
+  }));
 app.use(express.json());
 app.use(cookieParser());
 const PORT = process.env.PORT || 3000;
@@ -22,6 +25,13 @@ app.get('/', async (req, res) => {
 app.post('/signin', Signin);
 app.post('/login', Login);
 app.get('/logout', isAuthenticated, Logout);
+//@ts-ignore
+app.get('/checker', isAuthenticated, (req, res) => {
+    return res.status(200).json({
+        message: 'User is authenticated',
+        
+    })
+})
 
 
 //@ts-ignore

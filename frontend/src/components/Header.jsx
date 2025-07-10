@@ -2,6 +2,20 @@ import React from 'react';
 import { Upload, Plus, Eye, User, LogOut } from 'lucide-react';
 
 const Header = ({ user, onLogout, viewMode, setViewMode }) => {
+  // New logout handler
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/logout', { method: 'GET', credentials: 'include' });
+      if(response.ok){
+        onLogout();
+      }
+    } catch (e) {
+      // Optionally handle error
+      console.log(e)
+    }
+   
+  };
+
   return (
     <header className="bg-gray-800/50 backdrop-blur-xl border-b border-purple-500/20 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -46,7 +60,7 @@ const Header = ({ user, onLogout, viewMode, setViewMode }) => {
               <span className="text-white font-medium">{user?.name}</span>
             </div>
             <button
-              onClick={onLogout}
+              onClick={handleLogout}
               className="text-purple-200 hover:text-white transition-colors duration-200 p-2 rounded-lg hover:bg-purple-600/20"
             >
               <LogOut className="w-5 h-5" />
